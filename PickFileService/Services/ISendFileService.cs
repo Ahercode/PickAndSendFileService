@@ -2,5 +2,6 @@ namespace PickFileService.Services;
 
 public interface ISendFileService
 {
-    Task SendFileAsync(string filePath);
+    // void SendEmailWithAttachment(string to, string subject, string body, string filePath);
+    void CheckFolderAndSendFile(string filePath, string emailSubject);
 }

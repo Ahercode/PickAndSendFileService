@@ -1,50 +1,76 @@
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+
 namespace PickFileService.Services;
 
-public class SendFileService: ISendFileService
+public class SendFileService : ISendFileService
 {
-    private readonly List<(string FolderPath, TimeSpan Time)> _folderSchedules;
-    private readonly string _emailRecipient;
-    private readonly List<Timer> _timers;
+    private readonly IConfiguration _configuration;
 
-    public SendFileService(List<(string FolderPath, TimeSpan Time)> folderSchedules, string emailRecipient)
+    public SendFileService(IConfiguration configuration)
     {
-        _folderSchedules = folderSchedules;
-        _emailRecipient = emailRecipient;
-        _timers = new List<Timer>();
-
-        foreach (var schedule in _folderSchedules)
-        {
-            var dueTime = GetDueTime(schedule.Time);
-            var timer = new Timer(CheckFolderAndSendFile, schedule.FolderPath, dueTime, TimeSpan.FromDays(1));
-            _timers.Add(timer);
-        }
+        _configuration = configuration;
     }
     
-    private TimeSpan GetDueTime(TimeSpan scheduleTime)
+    public void CheckFolderAndSendFile(string filePath, string emailSubject)
     {
-        var now = DateTime.Now.TimeOfDay;
-        return scheduleTime > now ? scheduleTime - now : scheduleTime + TimeSpan.FromDays(1) - now;
-    }
+        // Check if the file exists before trying to send it
+        
+        var emailTo = _configuration["EmailConfiguration:To"];
+        var files = Directory.GetFiles(filePath);
 
-    public async Task SendFileAsync(string filePath)
-    {
-        Console.WriteLine($"Sending file: {filePath}");
-        await Task.CompletedTask;
-    }
-
-    private void CheckFolderAndSendFile(object state)
-    {
-        var folderPath = (string)state;
-        var files = Directory.GetFiles(folderPath);
         if (files.Length > 0)
         {
             var fileToSend = files[0]; // Pick the first file
-            SendEmailWithAttachment(fileToSend);
+            if (emailTo != null)
+            {
+                
+                SendEmailWithAttachment(emailTo, emailSubject, "Please find the attached file.", fileToSend);
+                File.Delete(fileToSend);
+            }
+            else
+            {
+                Console.WriteLine("No email address found to send the file to. The program will continue running.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"No file found to send for {emailSubject}. The program will continue running.");
         }
     }
-    
-    private void SendEmailWithAttachment(string filePath)
+
+    public void SendEmailWithAttachment(string to, string subject, string body, string filePath)
     {
-  
+        try
+        {
+            var from = _configuration["EmailConfiguration:From"];
+            var smtpServer = _configuration["EmailConfiguration:SmtpServer"];
+            var port = _configuration["EmailConfiguration:Port"];
+            var smtpUsername = _configuration["EmailConfiguration:SmtpUsername"];
+            var smtpPassword = _configuration["EmailConfiguration:SmtpPassword"];
+
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(from));
+            email.To.Add(MailboxAddress.Parse(to));
+            email.Subject = subject;
+        
+            var builder = new BodyBuilder { TextBody = body };
+            builder.Attachments.Add(filePath);
+            email.Body = builder.ToMessageBody();
+            using var smtpClient = new SmtpClient();
+        
+            smtpClient.Connect(smtpServer, int.Parse(port), SecureSocketOptions.StartTls);
+            smtpClient.Authenticate(smtpUsername, smtpPassword);
+        
+            smtpClient.Send(email);
+            smtpClient.Disconnect(true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
     }
 }

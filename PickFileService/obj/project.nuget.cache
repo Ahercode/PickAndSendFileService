@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "AF6kU+3xhWc=",
+  "dgSpecHash": "TdCsgrayBG8=",
   "success": true,
   "projectFilePath": "/Users/philip/RiderProjects/PickFileService/PickFileService/PickFileService.csproj",
   "expectedPackageFiles": [
+    "/Users/philip/.nuget/packages/bouncycastle.cryptography/2.4.0/bouncycastle.cryptography.2.4.0.nupkg.sha512",
+    "/Users/philip/.nuget/packages/mailkit/4.8.0/mailkit.4.8.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/microsoft.extensions.configuration/7.0.0/microsoft.extensions.configuration.7.0.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/microsoft.extensions.configuration.abstractions/7.0.0/microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/microsoft.extensions.configuration.binder/7.0.3/microsoft.extensions.configuration.binder.7.0.3.nupkg.sha512",
@@ -29,8 +31,11 @@
     "/Users/philip/.nuget/packages/microsoft.extensions.options/7.0.1/microsoft.extensions.options.7.0.1.nupkg.sha512",
     "/Users/philip/.nuget/packages/microsoft.extensions.options.configurationextensions/7.0.0/microsoft.extensions.options.configurationextensions.7.0.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "/Users/philip/.nuget/packages/mimekit/4.8.0/mimekit.4.8.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/system.diagnostics.diagnosticsource/7.0.1/system.diagnostics.diagnosticsource.7.0.1.nupkg.sha512",
     "/Users/philip/.nuget/packages/system.diagnostics.eventlog/7.0.0/system.diagnostics.eventlog.7.0.0.nupkg.sha512",
+    "/Users/philip/.nuget/packages/system.formats.asn1/8.0.1/system.formats.asn1.8.0.1.nupkg.sha512",
+    "/Users/philip/.nuget/packages/system.security.cryptography.pkcs/8.0.0/system.security.cryptography.pkcs.8.0.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/Users/philip/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512"
   ],
