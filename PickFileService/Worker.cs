@@ -16,9 +16,7 @@ public class Worker : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         
-        // File paths for each time slot to send the file
-        // The file paths are hard coded for demonstration purposes
-        // In a real-world scenario, I will read these from a configuration file or database
+        
         var fileToSendAt10Am = "/Users/philip/Desktop/TestFileUpload1/";
         var fileToSendAt1220Pm = "/Users/philip/Desktop/TestFileUpload2/";
         var fileToSendAt530Pm = "/Users/philip/Desktop/TestFileUpload3/";
